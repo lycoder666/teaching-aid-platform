@@ -3,17 +3,20 @@ from django.db import models
 # Create your models here.
 
 
-class AccountInfo(models.Model):
+class UserInfo(models.Model):
     AUTHORITY_CHOICES = (
         (0, 'admin'),
         (1, 'teacher'),
         (2, 'student')
     )
-    user_account = models.CharField(min_length=8, max_length=16, verbose_name='account')
-    account_pwd = models.CharField(null=True, verbose_name='password')
-    user_name = models.CharField(null=True, verbose_name='user_name')
-    user_email = models.CharField(null=True, verbose_name='user_email')
-    user_mobile = models.CharField(null=True, verbose_name='user_mobile')
+    username = models.CharField(max_length=16, verbose_name='account')
+    password = models.CharField(max_length=16, verbose_name='password')
+    act_name = models.CharField(max_length=20, null=True, verbose_name='actual name of user')
+    email = models.CharField(null=True, max_length=30, verbose_name='email of user')
+    mobile = models.CharField(null=True, max_length=11, verbose_name='mobile of user')
     # nustuNo = models.CharField(verbose_name='user_number')
-    user_authority = models.IntegerField(verbose_name='user_authority')
+    authority = models.IntegerField(verbose_name='user authority',default=0)
+
+    class Meta:
+        db_table = "users"
 
