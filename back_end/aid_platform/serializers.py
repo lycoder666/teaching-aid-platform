@@ -14,7 +14,15 @@ class UserRegModelSerializer(serializers.ModelSerializer):
     #     return attr
 
 
+class UserLoginModelSerializer(serializers.ModelSerializer):
+    # token = models.Charefield()
+    class Meta:
+        model = models.UserInfo
+        fields = ['id', 'username', 'act_name', 'email', 'mobile', 'authority']
+
+
 class UserInfoModelSerializer(serializers.ModelSerializer):
+    # token = serializers.Charfield(write_only=True)
     class Meta:
         model = models.UserInfo
         fields = '__all__'

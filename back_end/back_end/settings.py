@@ -25,7 +25,9 @@ SECRET_KEY = 'f!jh4vlyz)dsltwcm2&wf7bt-&r$zde436*zs320()#k8p44=='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = []
+
 
 # jwt111
 REST_FRAMEWORK = {
@@ -55,7 +57,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'aid_platform.apps.AidPlatformConfig',  # app reference
-
+    'rest_framework',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

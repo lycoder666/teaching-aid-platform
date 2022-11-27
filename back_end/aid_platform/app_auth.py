@@ -5,6 +5,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_jwt.authentication import get_authorization_header,jwt_get_username_from_payload
 from rest_framework_jwt.authentication import jwt_decode_handler
 import jwt
+from django.forms.models import model_to_dict
 
 
 class MyJSONWebTokenAuthentication(BaseAuthentication):
@@ -20,8 +21,8 @@ class MyJSONWebTokenAuthentication(BaseAuthentication):
         except jwt.InvalidTokenError:
             raise AuthenticationFailed('非法用户')
         username = jwt_get_username_from_payload(payload)
-        print(username)
+        # print(username)
         user = UserInfo.objects.filter(username=username).first()
-        print(user)
-
+        # print(type(user))
+        user = model_to_dict(user)
         return user, jwt_value
