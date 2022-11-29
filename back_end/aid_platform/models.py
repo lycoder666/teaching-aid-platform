@@ -15,13 +15,15 @@ class UserInfo(models.Model):
     email = models.CharField(null=True, max_length=30, verbose_name='email of user')
     mobile = models.CharField(null=True, max_length=11, verbose_name='mobile of user')
     # nustuNo = models.CharField(verbose_name='user_number')
-    authority = models.IntegerField(verbose_name='user authority',default=0)
+    authority = models.IntegerField(verbose_name='user authority', default=0)
     comment = models.ManyToManyField(to='SolutionInfo', through='CommentUser2Solution',
                                      through_fields=('user', 'solution'), related_name='comment')
     collection = models.ManyToManyField(to='SolutionInfo', through='CollectionUser2Solution',
                                         through_fields=('user', 'solution'), related_name='collection')
     like = models.ManyToManyField(to='SolutionInfo', through='LikeUser2Solution',
                                   through_fields=('user', 'solution'), related_name='like')
+    study = models.ManyToManyField(to='CourseInfo', through='StudyUser2Course',
+                                   through_fields=('user', 'course'), related_name='study')
 
     class Meta:
         db_table = "users"
@@ -107,6 +109,14 @@ class MarkProblem2Label(models.Model):
 
     class Meta:
         db_table = 'mark'
+
+
+class StudyUser2Course(models.Model):
+    user = models.ForeignKey(to=UserInfo, on_delete=models.CASCADE)
+    course = models.ForeignKey(to=CourseInfo, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'study'
 
 
 
