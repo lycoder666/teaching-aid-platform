@@ -63,7 +63,7 @@ class SolutionInfo(models.Model):
     solution_name = models.CharField(max_length=20, verbose_name="solution name")
     solution_content = models.TextField(verbose_name='solution content')
     is_checked = models.BooleanField(default=False, verbose_name='solution is checked or not')
-    user_id = models.ForeignKey(UserInfo, default=1, on_delete=models.CASCADE, verbose_name='publisher id')
+    user = models.ForeignKey(UserInfo, default=1, on_delete=models.CASCADE, verbose_name='publisher id')
     # like = models.IntegerField(default=0, verbose_name='like count')
     problem = models.ForeignKey(ProblemInfo, default=1, on_delete=models.CASCADE, verbose_name='solution belong')
 
