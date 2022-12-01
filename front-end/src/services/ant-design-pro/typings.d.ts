@@ -1,24 +1,50 @@
 declare namespace API {
+  /* 当前用户*/
   type CurrentUser = {
-    name?: string;
-    avatar?: string;
-    userid?: string;
+    id?: string;
+    username?: string;
     email?: string;
-    signature?: string;
-    title?: string;
-    group?: string;
-    tags?: { key?: string; label?: string }[];
-    notifyCount?: number;
-    unreadCount?: number;
-    country?: string;
-    access?: string;
-    geographic?: {
-      province?: { label?: string; key?: string };
-      city?: { label?: string; key?: string };
-    };
-    address?: string;
-    phone?: string;
+    act_name?: string;
+    email?: string;
+    mobile?: string;
+    authority?: number;
+    token?: string;
   };
+
+  /*登录参数*/
+  type LoginParams = {
+    username?: string;
+    password?: string;
+  };
+
+  /*登录返回结果*/
+  type LoginResult = {
+    statecode?: number;
+    user?: CurrentUser;
+    token?: string;
+  };
+
+  /*题解*/
+  type Solution = {
+    solutionId: number;
+    title: string;
+    content: string;
+    likes: number;
+    isLiked: boolean;
+    isStared: boolean
+  };
+
+  /*题解列表*/
+  type SolutionList = {
+    data: Solution[]
+  };
+
+  /*点赞数*/
+  type Likes = number;
+
+  /*评论数*/
+  type Messages = number;
+
 
   type ErrorResponse = {
     /** 业务约定的错误码 */
@@ -29,28 +55,11 @@ declare namespace API {
     success?: boolean;
   };
 
-  type FakeCaptcha = {
-    code?: number;
-    status?: string;
-  };
 
-  type getFakeCaptchaParams = {
-    /** 手机号 */
-    phone?: string;
-  };
 
-  type LoginParams = {
-    username?: string;
-    password?: string;
-    autoLogin?: boolean;
-    type?: string;
-  };
 
-  type LoginResult = {
-    status?: string;
-    type?: string;
-    currentAuthority?: string;
-  };
+
+
 
   type NoticeIconItem = {
     id?: string;

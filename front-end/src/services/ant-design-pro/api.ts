@@ -20,9 +20,9 @@ export async function outLogin(options?: { [key: string]: any }) {
   });
 }
 
-/** 登录接口 POST /api/login/account */
+/** 登录接口 POST /api/login/ */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request<API.LoginResult>('/api/login/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -31,6 +31,35 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
     ...(options || {}),
   });
 }
+
+/** 获取题解列表接口 /api/getSolutionList */
+export async function getSolutionList(problemId: number, options?: { [key: string]: any }) {
+  return request<API.SolutionList>('/api/getSolutionList', {
+    method: 'GET',
+    headers: {'Content-Type': 'application/json',},
+    data: problemId,
+    ...(options || {})
+  });
+}
+
+/** 获取题解的点赞数接口 /api/getLikes */
+export async function getLikes(solutionId?: number) {
+    return request<API.Likes>('/api/getLikes', {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json',},
+      data: solutionId,
+    });
+};
+
+/** 获取题解的评论数接口  /api/getMessages */
+export async function getMessages(solutionId: number, options?: {[key: string]: any}) {
+  return request<API.Messages>('/api/getMessages', {
+    method: 'GET',
+    headers: {'Content-Type': 'application/json',},
+    data: solutionId,
+    ...(options || {})
+  });
+};
 
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
