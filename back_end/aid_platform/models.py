@@ -118,7 +118,7 @@ class MarkProblem2Label(models.Model):
 class StudyUser2Course(models.Model):
     user = models.ForeignKey(to=UserInfo, on_delete=models.CASCADE)
     course = models.ForeignKey(to=CourseInfo, on_delete=models.CASCADE)
-
+    time = models.DateField
     class Meta:
         db_table = 'study'
 

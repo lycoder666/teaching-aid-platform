@@ -86,6 +86,7 @@ class UserLoginView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         user = UserInfo.objects.filter(username=username, password=password).first()
+        # print(user)
         if user:  # 能查到，登陆成功，手动签发
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
@@ -95,8 +96,35 @@ class UserLoginView(APIView):
             return Response({'statecode': 1, 'token': None})
 
 
+class CourseListView(APIView):
+    # authentication_classes = [MyJSONWebTokenAuthentication]
+    # queryset = models.CourseInfo.objects.all()
+    # serializer_class = StudySerializer
+
+    def get(self, request):
+        # user_id = request.data.get('id')
+        myauth = MyJSONWebTokenAuthentication()
+        user = myauth.authenticate(request)
+        user_id = user[0]['id']
+        user = UserInfo.objects.filter(id=user_id).first()
+        # user = UserInfo.objects.filter(id=user).first()
+        # user = UserInfo.objects.all()
+        print('/////////')
+        # print('*****', user)
+        # course = user.study.all()
+        # print(course)
+        # print(user[0])
+        if user:
+            # course = user.study.all().first()  # foreignkey study
+            # print(course.instructor)
+            serializer = StudySerializer(instance=user)
+            print(serializer.data)
+
+            return Response(serializer.data)
+# dont delete
+# # class CourseListView(ModelViewSet):  # 显示全部用户，study为课程详细信息
+# #     queryset = UserInfo.objects.all()
+# #     serializer_class = StudySerializer
 
 
-
-# class UserRegView():
 

@@ -24,5 +24,7 @@ class MyJSONWebTokenAuthentication(BaseAuthentication):
         # print(username)
         user = UserInfo.objects.filter(username=username).first()
         # print(type(user))
-        user = model_to_dict(user)
+
+        user = model_to_dict(user)  # dont delete 转换后可以获取数据
+
         return user, jwt_value
