@@ -2,7 +2,7 @@
 from aid_platform.models import UserInfo
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework_jwt.authentication import get_authorization_header,jwt_get_username_from_payload
+from rest_framework_jwt.authentication import get_authorization_header, jwt_get_username_from_payload
 from rest_framework_jwt.authentication import jwt_decode_handler
 import jwt
 from django.forms.models import model_to_dict
@@ -26,5 +26,5 @@ class MyJSONWebTokenAuthentication(BaseAuthentication):
         # print(type(user))
 
         user = model_to_dict(user)  # dont delete 转换后可以获取数据
-
-        return user, jwt_value
+        # print(jwt_value)
+        return [user, jwt_value]
