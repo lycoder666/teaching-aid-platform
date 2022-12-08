@@ -8,13 +8,14 @@ import Icon, {
   StarOutlined,
   StarTwoTone
 } from '@ant-design/icons';
-import {Avatar, List, Space, theme} from 'antd';
+import {Avatar, List, Space, Tag, theme} from 'antd';
 import {FC} from "react";
 import {useRequest} from 'umi';
 import {ProCard} from "@ant-design/pro-components";
 import {getLikes, getMessages, getSolutionList} from "@/services/ant-design-pro/api";
 import {useModel} from "@@/plugin-model/useModel";
 import SolutionDetail from "@/pages/course/solutionDetail";
+import {toNumber} from "lodash";
 
 
 
@@ -70,7 +71,7 @@ const Like = ({item}: {item: API.Solution}) => {
     /**
      * To do: 向后端发送请求修改点赞信息
      */
-
+    setCount(isLiked? count - 1 : count + 1)
     //To do 重新获取点赞数
   }
 
@@ -93,7 +94,7 @@ const Star = ({item}: {item: API.Solution}) => {
     /**
      * To do: 向后端发送请求修改收藏信息
      */
-
+    setCount(isStared? count - 1 : count + 1)
     //To do 重新获取收藏数
   }
 
@@ -118,6 +119,8 @@ const Solutions: FC<IProps> = () => {
     () => {
       return getSolutionList(1);
     });
+    const data1 = nums || [];
+
 
   /**
    * 点击列表项设置信息
@@ -128,10 +131,11 @@ const Solutions: FC<IProps> = () => {
       setClickId(id);
   };
 
+  // @ts-ignore
   return (
     <div>
     <ProCard split={"vertical"} style={{borderRadius: 5}}>
-      <ProCard colSpan={"45%"} style={{ height: document.body.clientHeight - 172, overflow: 'auto' }}>
+      <ProCard colSpan={"45%"} style={{ height: document.body.clientHeight - 160, overflow: 'auto' }}>
         <List
           itemLayout="vertical"
           size="large"
@@ -143,7 +147,7 @@ const Solutions: FC<IProps> = () => {
             hideOnSinglePage: true,
             showLessItems: true
           }}
-          dataSource={nums}
+          dataSource={data1.sort((a,b) => b.isChecked - a.isChecked)}
           renderItem={(item) => (
             <List.Item
               onClick={() => {click(item.solutionId)}}
@@ -156,11 +160,12 @@ const Solutions: FC<IProps> = () => {
             >
               <List.Item.Meta
                 avatar={<Avatar src={'https://joeschmoe.io/api/v1/random'}/>}
-                title={<a /*href={item.href}*/>{item.title}</a>}
+                title={item.isChecked?(<Tag color="red">{'已审核'}</Tag>):''}
                 description={initialState.currentUser.username}
               />
-              <p className={styles.item}>{item.content}</p>
+              <p className={styles.item}>{item.title}</p>
             </List.Item>
+
           )}
         />
       </ProCard>

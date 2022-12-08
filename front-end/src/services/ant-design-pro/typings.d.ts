@@ -4,8 +4,7 @@ declare namespace API {
     id?: string;
     username?: string;
     email?: string;
-    act_name?: string;
-    email?: string;
+    realName?: string;
     mobile?: string;
     authority?: number;
     token?: string;
@@ -31,7 +30,8 @@ declare namespace API {
     content: string;
     likes: number;
     isLiked: boolean;
-    isStared: boolean
+    isStared: boolean;
+    isChecked?: boolean
   };
 
   /*题解列表*/

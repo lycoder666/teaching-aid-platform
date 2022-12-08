@@ -26,13 +26,15 @@
     routes: [
       // used for personal info
       {
-        name: 'personal info',
-        path: '/account/personal-info',
+        name: '个人信息',
+        path: '/account/center',
+        component: './account/center'
       },
       // used for change settings
       {
-        name: 'preferences',
-        path: '/account/preferences',
+        name: '个人设置',
+        path: '/account/settings',
+        component: './account/settings'
       },
       {
         component: './404',
@@ -117,6 +119,11 @@
     name: '题解',
     path: '/course/solution',
     component: './course/solution'
+  },
+  {
+    path: '/course/solutionDetail',
+    component: './course/solutionDetail',
+    
   },
   // default redirect
   {

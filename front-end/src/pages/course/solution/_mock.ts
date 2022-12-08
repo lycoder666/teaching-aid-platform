@@ -25,7 +25,8 @@ export default {
             'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
           likes: 6,
           isLiked: true,
-          isStared: false
+          isStared: false,
+          isChecked: true
         },
         {
           solutionId: 2,
@@ -35,7 +36,8 @@ export default {
             'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
           likes: 7,
           isLiked: true,
-          isStared: true
+          isStared: true,
+          isChecked: false
         },
         {
           solutionId: 3,
@@ -45,7 +47,8 @@ export default {
             'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
           likes: 67,
           isLiked: false,
-          isStared: false
+          isStared: false,
+          isChecked: true
         },
           {
             solutionId: 4,
@@ -55,7 +58,8 @@ export default {
               'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
             likes: 44,
             isLiked: false,
-            isStared: true
+            isStared: true,
+            isChecked: false
           },
           {
             solutionId: 5,
@@ -65,7 +69,8 @@ export default {
               'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
             likes: 55,
             isLiked: true,
-            isStared: false
+            isStared: false,
+            isChecked: true
           },
       ]});
   }
