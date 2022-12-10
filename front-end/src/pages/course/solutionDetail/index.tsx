@@ -14,11 +14,11 @@ import {useLocation} from "umi";
 const data = Array.from({length: 23}).map((_, i) => ({
   href: 'https://ant.design',
   title: `ant design part ${i}`,
-  avatar: 'https://joeschmoe.io/api/v1/random',
+  avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
   description:
     'Ant Design, a design language for background applications, is refined by Ant UED Team.',
   content:
-    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    '标准答案步骤稍多，而且不容易理解，应该左侧指针固定，移动右侧指针，当窗口内最右侧的字符在set中存在时，左侧指针移动并从set中移除原左侧指针对应的字符，这样再取窗口长度的最大值即可',
 }));
 
 interface IProps {
@@ -33,7 +33,7 @@ interface IProps {
 const SolutionDetail: FC<IProps> = (props) => {
 
 
-  const md = `# Hello, world!\n Lift($L$) can be determined by Lift Coefficient ($C_L$) like the equation\n $$\n
+  const md = `# 思路：\n 这道题主要用到思路是：滑动窗口\n 什么是滑动窗口\n 其实就是一个队列.... \n\nLift($L$) can be determined by Lift Coefficient ($C_L$) like the equation\n $$\n
               L = \\frac{1}{2} \\rho v^2 S C_L
               \n$$`
 
@@ -46,8 +46,9 @@ const SolutionDetail: FC<IProps> = (props) => {
     <div style={{height: document.body.clientHeight - 160, overflow: 'auto'}}>
       <div>
         <List.Item.Meta
-          avatar={<Avatar src={'https://joeschmoe.io/api/v1/random'}/>}
-          title={<p>super super {solutionId}</p>}
+          avatar={<Avatar src={'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'}/>}
+          title={<p>滑动窗口</p>}
+          description={'user'}
         ></List.Item.Meta>
       </div>
       <div>
@@ -56,6 +57,9 @@ const SolutionDetail: FC<IProps> = (props) => {
           <ReactMarkdown remarkPlugins={[gfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{md}</ReactMarkdown>
         </ProCard>
 
+        <br/>
+        <br/>
+        <br/>
         {/*评论展示*/}
         <List
           itemLayout="vertical"

@@ -47,7 +47,7 @@ const ReleaseSolution: React.FC = () => {
 
           >
             <List.Item.Meta
-              avatar={<Avatar src={'https://joeschmoe.io/api/v1/random'}/>}
+              // avatar={<Avatar src={'https://joeschmoe.io/api/v1/random'}/>}
               title={<a /*href={item.href}*/>{item.title}</a>}
               // description={initialState.currentUser.username}
             />

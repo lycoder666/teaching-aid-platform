@@ -11,24 +11,36 @@ const passwordStrength = {
   weak: <span className="weak">弱 Weak</span>,
 };
 
+
 const SecurityView: React.FC = () => {
+
+  const [form] = ProForm.useForm()
 
   const handleFinish = async () => {
     message.success('更新基本信息成功');
   };
 
-  // const checkPassword = (_: any, value: string) => {
-  //   const promise = Promise;
-  //   if (/*TO do */true) {
-  //     return promise.reject('密码错误');
-  //   }
-  //   return promise.resolve();
-  // }
+  const checkPassword = (_: any, value: string) => {
+    const promise = Promise;
+    if (/*TO do */true) {
+      return promise.reject('密码错误');
+    }
+    return promise.resolve();
+  }
+
+  const checkConfirm = (_: any, value: string) => {
+    const promise = Promise;
+    if (value && value !== form.getFieldValue('newpwd')) {
+      return promise.reject('两次输入的密码不匹配!');
+    }
+    return promise.resolve();
+  };
 
   return (
     <>
       <ProForm
       layout='vertical'
+      form={form}
       onFinish={handleFinish}
       submitter={{
         searchConfig: {
@@ -48,9 +60,7 @@ const SecurityView: React.FC = () => {
               message: '请输入您的原密码!',
             },
             {
-              // {
-              //   validator: checkPassword
-              // }
+                validator: checkPassword
             }
           ]}
         />
@@ -76,6 +86,9 @@ const SecurityView: React.FC = () => {
               required: true,
               message: '请再次输入新密码!',
             },
+            {
+              validator:checkConfirm
+            }
           ]}
         />
 

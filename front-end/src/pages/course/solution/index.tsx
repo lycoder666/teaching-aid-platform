@@ -159,7 +159,8 @@ const Solutions: FC<IProps> = () => {
               ]}
             >
               <List.Item.Meta
-                avatar={<Avatar src={'https://joeschmoe.io/api/v1/random'}/>}
+                //https://joeschmoe.io/api/v1/random
+                avatar={<Avatar src={'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'}/>}
                 title={item.isChecked?(<Tag color="red">{'已审核'}</Tag>):''}
                 description={initialState.currentUser.username}
               />

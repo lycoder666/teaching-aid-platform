@@ -109,7 +109,7 @@ const Center: React.FC<RouteChildrenProps> = () => {
             {!loading && currentUser && (
               <div>
                 <div className={styles.avatarHolder}>
-                  <img alt="" src={'https://joeschmoe.io/api/v1/random'} />
+                  <img alt="" src={'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'} />
                   <div className={styles.name}>{currentUser.username}</div>
                 </div>
                 {renderUserInfo()}

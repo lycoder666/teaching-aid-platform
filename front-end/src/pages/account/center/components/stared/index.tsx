@@ -43,7 +43,7 @@ const Stared: React.FC = () => {
 
           >
             <List.Item.Meta
-              avatar={<Avatar src={'https://joeschmoe.io/api/v1/random'}/>}
+              avatar={<Avatar src={'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'}/>}
               title={<a /*href={item.href}*/>{item.title}</a>}
               description={initialState.currentUser.username}
             />

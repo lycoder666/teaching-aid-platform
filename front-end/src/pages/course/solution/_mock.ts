@@ -19,7 +19,7 @@ export default {
         data:[
         {
           solutionId: 1,
-          title: 'buffers1',
+          title: '滑动窗口',
           content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), \' +\n' +
             '    \'to help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently. ' +
             'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
@@ -41,7 +41,7 @@ export default {
         },
         {
           solutionId: 3,
-          title: 'buffers3',
+          title: '无重复字符串',
           content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), \' +\n' +
             '    \'to help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently. ' +
             'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
