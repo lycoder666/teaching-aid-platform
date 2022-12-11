@@ -60,7 +60,7 @@ const Login: React.FC = () => {
           break;
         //学生
         case 2:
-          history.push('/course/solution');
+          history.push('/control-panel');
           break;
         case undefined:
         {

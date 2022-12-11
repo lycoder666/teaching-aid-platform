@@ -18,6 +18,31 @@
       },
     ],
   },
+  //control panel
+  {
+    name: '控制面板',
+    path: '/control-panel',
+    icon: 'appstore',
+    component: './course/index'
+  },
+
+  //题目
+  {
+    path: '/course/solutionDetail',
+    component: './course/solutionDetail',
+
+  },
+  {
+    name: '题目',
+    icon: 'book',
+    path: '/course/problems',
+    component: './course/ProblemPage/index',
+  },
+  {
+    path: '/course/problems/detail',
+    component: './course/ProblemPage/Detail/index',
+  },
+
   // account routes
   {
     name: 'account',
@@ -41,12 +66,7 @@
       },
     ],
   },
-  //control panel
-  {
-    name: '控制面板',
-    path: '/control-panel',
-    icon: 'appstore'
-  },
+
   // course route
   {
     path: '/course-student',
@@ -103,28 +123,24 @@
       },
     ],
   },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
+  // {
+  //   name: 'list.table-list',
+  //   icon: 'table',
+  //   path: '/list',
+  //   component: './TableList',
+  // },
   // default redirect
   {
     path: '/',
     redirect: '/lesson',
   },
 
-  {
-    name: '题解',
-    path: '/course/solution',
-    component: './course/solution'
-  },
-  {
-    path: '/course/solutionDetail',
-    component: './course/solutionDetail',
-    
-  },
+  // {
+  //   name: '题解',
+  //   path: '/course/solution',
+  //   component: './course/solution'
+  // },
+
   // default redirect
   {
     component: './404',

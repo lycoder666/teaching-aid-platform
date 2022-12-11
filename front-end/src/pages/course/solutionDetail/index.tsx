@@ -18,7 +18,7 @@ const data = Array.from({length: 23}).map((_, i) => ({
   description:
     'Ant Design, a design language for background applications, is refined by Ant UED Team.',
   content:
-    '标准答案步骤稍多，而且不容易理解，应该左侧指针固定，移动右侧指针，当窗口内最右侧的字符在set中存在时，左侧指针移动并从set中移除原左侧指针对应的字符，这样再取窗口长度的最大值即可',
+    '这篇题解从思路梳理到用词推敲，是我最满意的一篇。因为它收到一个赞我就再读一遍，再改一改，改了有几十遍……希望你读的时候，它是很流畅的样子。',
 }));
 
 interface IProps {
@@ -33,9 +33,11 @@ interface IProps {
 const SolutionDetail: FC<IProps> = (props) => {
 
 
-  const md = `# 思路：\n 这道题主要用到思路是：滑动窗口\n 什么是滑动窗口\n 其实就是一个队列.... \n\nLift($L$) can be determined by Lift Coefficient ($C_L$) like the equation\n $$\n
-              L = \\frac{1}{2} \\rho v^2 S C_L
-              \n$$`
+  const md = `# 题意解释：
+  - 一共有 n 门课要上，编号为 0 ~ n-1。\n
+  - 先决条件[1, 0]，意思是必须先上课 0，才能上课 1。\n
+  - 给你 n 、和一个先决条件表，请你判断能否完成所有课程。\n
+  `
 
   const location = useLocation()
   const sid = location?.state?.solutionId

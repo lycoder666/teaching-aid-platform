@@ -19,7 +19,7 @@ export default {
         data:[
         {
           solutionId: 1,
-          title: '滑动窗口',
+          title: '「图解」拓扑排序 | 课程表问题',
           content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), \' +\n' +
             '    \'to help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently. ' +
             'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
@@ -41,7 +41,7 @@ export default {
         },
         {
           solutionId: 3,
-          title: '无重复字符串',
+          title: '深度优先遍历',
           content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), \' +\n' +
             '    \'to help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently. ' +
             'help people create their product prototypes beautifully and efficiently. help people create their product prototypes beautifully and efficiently.\',',
