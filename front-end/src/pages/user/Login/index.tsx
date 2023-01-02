@@ -1,4 +1,4 @@
-import {login} from '@/services/ant-design-pro/api';
+import {loginCreate} from "@/services/ant-design-pro/login";
 import {
   LockOutlined,
   UserOutlined,
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: API.LoginParams) => {
     // 登录
-    const msg = await login({...values});
+    const msg = await loginCreate({...values});
     if (msg.statecode === 0) {//登录成功
       const defaultLoginSuccessMessage = intl.formatMessage({
         id: 'pages.login.success',
@@ -46,8 +46,6 @@ const Login: React.FC = () => {
         ...s,
         currentUser: {...msg.user, token: msg.token}
       }));
-      console.log(initialState.currentUser);
-      //To do: 根据不同身份跳转到不同的页面
       // @ts-ignore
       switch (msg.user.authority) {
         //管理员

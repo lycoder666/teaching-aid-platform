@@ -15,8 +15,13 @@ const markdownProblemDescription = `
 请你判断是否可能完成所有课程的学习？如果可以，返回 true ；否则，返回 false 。
 
 `;
+type IProps = {
+  problemId: number
+};
 
-const ProblemDescription: React.FC = () => {
+const ProblemDescription: React.FC<IProps> = (props: IProps) => {
+
+
   return (
     <>
       <Title level={3}>课程表</Title>

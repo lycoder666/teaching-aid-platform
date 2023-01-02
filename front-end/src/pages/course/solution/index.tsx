@@ -12,16 +12,17 @@ import {Avatar, List, Space, Tag, theme} from 'antd';
 import {FC} from "react";
 import {useRequest} from 'umi';
 import {ProCard} from "@ant-design/pro-components";
-import {getLikes, getMessages, getSolutionList} from "@/services/ant-design-pro/api";
 import {useModel} from "@@/plugin-model/useModel";
 import SolutionDetail from "@/pages/course/solutionDetail";
 import {toNumber} from "lodash";
+import {getProblemSolutionsRead} from "@/services/ant-design-pro/getProblemSolutions";
+import {getLikes, getStared, getComments} from "@/services/ant-design-pro/get";
+import {modifyLikes, modifyStared} from "@/services/ant-design-pro/modify";
 
 
 
 
-
-interface IProps {
+type IProps = {
   problemId: number;
 }
 
@@ -48,66 +49,93 @@ const data = Array.from({length: 23}).map((_, i) => ({
 
 
 //点赞组件
-const Like = ({item}: {item: API.Solution}) => {
+const Like = ({item}: {item: API.SolutionDetail}) => {
 
-  const [count, setCount] = useState(item.likes)
-  const [isLiked, setIsLiked] = useState(item.isLiked)
+  const {initialState} = useModel('@@initialState')
+  //获取数据
+  const {data} = useRequest<{data: API.Likes}>(
+    () =>{
+      return getLikes(item.id, initialState.currentUser.token);
+    });
 
-  // const {data: num} = useRequest<{data: API.Likes}>(
-  //   () =>{
-  //     return getLikes(solutionId);
-  //   }, {
-  //   // manual: true,
-  //   onSuccess: () =>{
-  //     // @ts-ignore
-  //     setLikes(num);
-  //   }
-  // });
+  const [count, setCount] = useState(data.likes)
+  const [isLiked, setIsLiked] = useState(data.isLiked)
 
-  const changeInfo = async () => {
+  const ChangeInfo = async () => {
 
     //修改点赞信息
     setIsLiked(!isLiked)
     /**
      * To do: 向后端发送请求修改点赞信息
      */
+    useRequest(() => {
+      modifyLikes(initialState.currentUser.token, isLiked);
+    })
+
     setCount(isLiked? count - 1 : count + 1)
-    //To do 重新获取点赞数
+
   }
 
-  return(<Space onClick={() => {changeInfo()}}>
+  return(<Space onClick={() => {ChangeInfo()}}>
     {isLiked? <LikeFilled/> : <LikeOutlined/>}
     {count}
   </Space>)
 }
 
 //收藏组件
-const Star = ({item}: {item: API.Solution}) => {
+const Star = ({item}: {item: API.SolutionDetail}) => {
 
-  const [count, setCount] = useState(item.likes);
-  const [isStared, setIsStared] = useState(item.isStared)
+  const {initialState} = useModel('@@initialState')
 
-  const changeInfo = async () => {
 
-    //修改收藏信息
+  //获取数据
+  const {data} = useRequest<{data: API.Stared}>(
+    () =>{
+      return getStared(item.id, initialState.currentUser.token);
+    });
+
+  const [count, setCount] = useState(data.stars)
+  const [isStared, setIsStared] = useState(data.isStared)
+
+  const ChangeInfo = async () => {
+
+    //修改点赞信息
     setIsStared(!isStared)
     /**
-     * To do: 向后端发送请求修改收藏信息
+     * To do: 向后端发送请求修改点赞信息
      */
+    useRequest(() => {
+      modifyLikes(initialState.currentUser.token, isStared);
+    })
+
     setCount(isStared? count - 1 : count + 1)
-    //To do 重新获取收藏数
+
   }
 
-  return(<Space onClick={() => {changeInfo()}}>
+  return(<Space onClick={() => {ChangeInfo()}}>
     {isStared? <StarFilled/> : <StarOutlined/>}
     {count}
+  </Space>)
+}
+
+//评论组件
+const Message = ({item}: {item: API.SolutionDetail}) => {
+
+  const {data: count} = useRequest(() =>{
+    return getComments(item.id);
+  })
+
+  return(<Space>
+    <MessageOutlined>
+      {count}
+    </MessageOutlined>
   </Space>)
 }
 /**
  * 题解列表组件
  * @constructor
  */
-const Solutions: FC<IProps> = () => {
+const Solutions: FC<IProps> = (props: IProps) => {
 
   //是否点击详情
   const [isCliked, setIsClicked] = useState(false);
@@ -117,9 +145,9 @@ const Solutions: FC<IProps> = () => {
   //根据题目id获取对应的题解
   const {data: nums} = useRequest(
     () => {
-      return getSolutionList(1);
+      return getProblemSolutionsRead(props);
     });
-    const data1 = nums || [];
+    const data1 = nums.solution_list || [];
 
 
   /**
@@ -155,7 +183,7 @@ const Solutions: FC<IProps> = () => {
               actions={[
                 <Star item={item}/>,
                 <Like item={item}/>,
-                <Space><MessageOutlined/>5</Space>
+                <Message item={item}/>
               ]}
             >
               <List.Item.Meta

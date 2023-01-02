@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { Form, Button, Input, message } from 'antd';
 import type { Store } from 'antd/es/form/interface';
 import { Link, useRequest, history } from 'umi';
-import type { StateType } from './service';
-import { fakeRegister } from './service';
+import {registCreate} from "@/services/ant-design-pro/regist";
+import {checkUsername} from "@/services/ant-design-pro/checkUsername";
 // import CryptoJs from 'crypto-js';
 
 import styles from './style.less';
@@ -23,23 +23,8 @@ const Register: FC = () => {
     [interval],
   );
 
-  const { loading: submitting, run: register } = useRequest<{ data: StateType }>(fakeRegister, {
-    manual: true,
-    onSuccess: (data, params) => {
-      if (data.status === 'ok') {
-        message.success('注册成功！');
-        history.push({
-          pathname: '/user/login',
-          state: {
-            account: params.email,
-          },
-        });
-      }
-    },
-  });
-
   //提交表单
-  const onFinish = (values: Store) => {
+  const onFinish = async (values: Store) => {
     //MD5加密密码
     const password = values['password'];
     const cryptoPwd = CryptoJs.MD5(password).toString();
@@ -49,10 +34,18 @@ const Register: FC = () => {
     const cryptoPwd1 = CryptoJs.MD5(repassword).toString();
     values['confirm'] = cryptoPwd1;
 
-    register(values);
+    const msg = await registCreate(values as API.RegistInfo);
+    if (msg) {
+      message.success('注册成功！');
+      history.push({
+        pathname: '/user/login',
+      });
+    }else {
+      message.error('注册失败，请重新注册');
+    }
   };
 
-
+  //判断两次密码是否正确
   const checkConfirm = (_: any, value: string) => {
     const promise = Promise;
     if (value && value !== form.getFieldValue('password')) {
@@ -61,13 +54,15 @@ const Register: FC = () => {
     return promise.resolve();
   };
 
-  // const checkUsername = (_: any, value: string) => {
-  //   const promise = Promise;
-  //   if (/*TO do */true) {
-  //     return promise.reject('用户名已存在');
-  //   }
-  //   return promise.resolve();
-  // }
+  //判断用户名是否存在
+  const checkUserName = async (_: any, value: string) => {
+    const promise = Promise;
+    const data1 = await checkUsername(form.getFieldValue('username'))
+    if (data1) {
+      return promise.reject('用户名已存在');
+    }
+    return promise.resolve();
+  }
 
   return (
     <div className={styles.main}>
@@ -84,9 +79,9 @@ const Register: FC = () => {
                         pattern: /^\w[a-zA-Z\d]{7,15}$/,
                         message: '用户名格式错误'
                       },
-                      // {
-                      //   validator: checkUsername
-                      // }
+                      {
+                        validator: checkUserName
+                      }
                     ]}>
             <Input size="middle" placeholder="用户名" />
           </FormItem>

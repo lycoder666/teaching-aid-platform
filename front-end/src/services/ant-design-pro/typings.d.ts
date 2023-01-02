@@ -1,13 +1,156 @@
 declare namespace API {
-  /* 当前用户*/
+  type CourseInfo = {
+    /** ID */
+    courseId: number;
+    /** Course name */
+    courseName: string;
+    /** Course instructor */
+    // instructor?: number;
+  };
+
+  type CourseLabelList = {
+    /** ID */
+    id?: number;
+    label?: LabelCourseLabelList[];
+  };
+
+  type TProblemList = {
+    /** ID */
+    id?: number;
+    problemList?: ProblemList[];
+  };
+
+  type getCourseDetailDeleteParams = {
+    /** A unique integer value identifying this course info. */
+    id: number;
+  };
+
+  type getCourseDetailReadParams = {
+    /** A unique integer value identifying this course info. */
+    id: number;
+  };
+
+  type getCourseLabelsReadParams = {
+    /** A unique integer value identifying this course info. */
+    id: number;
+  };
+
+  type getCourseProblemsReadParams = {
+    /** A unique integer value identifying this course info. */
+    id: number;
+  };
+
+  type getLabelProblemsReadParams = {
+    /** A unique integer value identifying this label info. */
+    labelId: number;
+  };
+
+  type getProblemSolutionsReadParams = {
+    /** A unique integer value identifying this problem info. */
+    problemId: number;
+  };
+
+  type getUserCoursesDeleteParams = {
+    /** A unique integer value identifying this user info. */
+    id: number;
+  };
+
+  type getUserCoursesReadParams = {
+    /** A unique integer value identifying this user info. */
+    id: number;
+  };
+
+  type LabelCourseLabelList = {
+    /** ID */
+    id?: number;
+    /** Label name */
+    labelName: string;
+  };
+
+  type LabelProblemListDetail = {
+    /** ID */
+    id?: number;
+    markProblem?: ProblemListRelationship[];
+  };
+
+  type LabelProblemListInfo = {
+    /** ID */
+    id?: number;
+    /** Label name */
+    labelName: string;
+  };
+
+  type ProblemList = {
+    /** ID */
+    id?: number;
+    mark?: LabelProblemListInfo[];
+    /** Problem name */
+    problemName: string;
+    /** CreatedAt */
+    createdAt?: number;
+    /** ChangedAt */
+    changedAt?: number;
+    /** Is solved or not */
+    isSolved?: boolean;
+  };
+
+  type ProblemListRelationship = {
+    /** ID */
+    id?: number;
+    /** Problem name */
+    problemName: string;
+    /** Is solved or not */
+    isSolved?: boolean;
+    /** ChangedAt */
+    changedAt?: number;
+    /** CreatedAt */
+    createdAt?: number;
+  };
+
+  type ProblemSolutionList = {
+    /** ID */
+    id?: number;
+    solution_list?: SolutionDetail[];
+  };
+
+  type SolutionDetail = {
+    /** ID */
+    id?: number;
+    /** Solution name */
+    solutionName: string;
+    /** Solution is checked or not */
+    isChecked?: boolean;
+    /** CreatedAt */
+    createdAt?: number;
+    /** ChangedAt */
+    changedAt?: number;
+  };
+
+  type UserCourseList = {
+    /** ID */
+    id?: number;
+    study?: CourseInfo[];
+  };
+
   type CurrentUser = {
-    id?: string;
+    id?: number;
     username?: string;
     email?: string;
     realName?: string;
     mobile?: string;
     authority?: number;
     token?: string;
+  };
+
+  type RegistInfo = {
+    /** Account */
+    username: string;
+    /** Password */
+    password: string;
+    confirm: string
+    /** Email of user */
+    mail?: string;
+    /** Last login */
   };
 
   /*登录参数*/
@@ -23,97 +166,13 @@ declare namespace API {
     token?: string;
   };
 
-  /*题解*/
-  type Solution = {
-    solutionId: number;
-    title: string;
-    content: string;
+  type Likes = {
     likes: number;
     isLiked: boolean;
+  }
+
+  type Stared = {
+    stars: number;
     isStared: boolean;
-    isChecked?: boolean
-  };
-
-  /*题解列表*/
-  type SolutionList = {
-    data: Solution[]
-  };
-
-  /*点赞数*/
-  type Likes = number;
-
-  /*评论数*/
-  type Messages = number;
-
-
-  type ErrorResponse = {
-    /** 业务约定的错误码 */
-    errorCode: string;
-    /** 业务上的错误信息 */
-    errorMessage?: string;
-    /** 业务上的请求是否成功 */
-    success?: boolean;
-  };
-
-
-
-
-
-
-
-  type NoticeIconItem = {
-    id?: string;
-    extra?: string;
-    key?: string;
-    read?: boolean;
-    avatar?: string;
-    title?: string;
-    status?: string;
-    datetime?: string;
-    description?: string;
-    type?: NoticeIconItemType;
-  };
-
-  type NoticeIconItemType = 'notification' | 'message' | 'event';
-
-  type NoticeIconList = {
-    data?: NoticeIconItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type PageParams = {
-    current?: number;
-    pageSize?: number;
-  };
-
-  type RuleList = {
-    data?: RuleListItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type RuleListItem = {
-    key?: number;
-    disabled?: boolean;
-    href?: string;
-    avatar?: string;
-    name?: string;
-    owner?: string;
-    desc?: string;
-    callNo?: number;
-    status?: number;
-    updatedAt?: string;
-    createdAt?: string;
-    progress?: number;
-  };
-
-  type ruleParams = {
-    /** 当前的页码 */
-    current?: number;
-    /** 页面的容量 */
-    pageSize?: number;
-  };
+  }
 }
