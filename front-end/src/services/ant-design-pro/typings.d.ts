@@ -147,7 +147,7 @@ declare namespace API {
     username: string;
     /** Password */
     password: string;
-    confirm: string
+    confirm: string;
     /** Email of user */
     mail?: string;
     /** Last login */
@@ -169,10 +169,10 @@ declare namespace API {
   type Likes = {
     likes: number;
     isLiked: boolean;
-  }
+  };
 
   type Stared = {
     stars: number;
     isStared: boolean;
-  }
+  };
 }

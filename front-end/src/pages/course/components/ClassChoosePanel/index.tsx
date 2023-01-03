@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
-import {ProCard} from "@ant-design/pro-components";
+import React, { useState } from 'react';
+import { ProCard } from '@ant-design/pro-components';
 import { Card, Col, Row } from 'antd';
 import { Link } from 'umi';
-import {getUserCoursesRead} from "@/services/ant-design-pro/getUserCourses";
-import {useModel} from "@@/plugin-model/useModel";
-import {useRequest} from "umi";
-
+import { getUserCoursesRead } from '@/services/ant-design-pro/getUserCourses';
+import { useModel } from '@@/plugin-model/useModel';
+import { useRequest } from 'umi';
 
 // const {initialState} = useModel('@@initialState')
 // let courses;
@@ -15,14 +14,15 @@ import {useRequest} from "umi";
 // }
 
 const Classes: React.FC = () => {
-
   // let courses: API.CourseInfo[] | undefined;
-  const {initialState} = useModel('@@initialState')
+  const { initialState } = useModel('@@initialState');
   // const [CourseLabelList, setCourseLabelList] = useState<API.UserCourseList>()
   const uid = initialState?.currentUser?.id;
-  const {data} = useRequest(() => {
+  const { data, error, loading } = useRequest(() => {
     return getUserCoursesRead(uid);
-  })
+  });
+  console.log('this is ', data);
+
   // const d = async () =>{
   //   await getUserCoursesRead(uid).then((d1) => {
   //     // console.log(d1)
@@ -30,7 +30,13 @@ const Classes: React.FC = () => {
   // }
   // const courses = data.study;
 
-  const courses = data.study;
+  let courses;
+  if (data === undefined) {
+    return <div>loading</div>;
+  } else {
+    console.log(courses);
+    courses = data.study;
+  }
 
   // const s = async () => {
   //   const data = await getUserCoursesRead(uid);
@@ -41,13 +47,28 @@ const Classes: React.FC = () => {
   // console.log('courses', courses)
   // d();
   // console.log('fdsfd', typeof courses)
+  if (courses === undefined) {
+    return <div>loading</div>;
+  }
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', margin: '0 10px', width: 550 }}>
-      {courses.map(course =>
-        <Link to={{pathname: "/course/problems", state: {courseId: course.courseId}}}>
-          <ProCard title={course.courseName} bordered style={{ width: 250, height: 250,  marginBottom: 50, borderRadius: 5}}/>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        margin: '0 10px',
+        width: 550,
+      }}
+    >
+      {courses.map((course) => (
+        <Link to={{ pathname: '/course/problems', state: { courseId: course.courseId } }}>
+          <ProCard
+            title={course.courseName}
+            bordered
+            style={{ width: 250, height: 250, marginBottom: 50, borderRadius: 5 }}
+          />
         </Link>
-      )}
+      ))}
     </div>
   );
 };
