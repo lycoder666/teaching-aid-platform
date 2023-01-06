@@ -7,7 +7,6 @@ import { Typography } from 'antd';
 import { ProCard } from '@ant-design/pro-components';
 import { useLocation } from 'umi';
 import { useRequest } from '@@/plugin-request/request';
-import { useModel } from 'umi';
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -23,12 +22,11 @@ const ProblemsPage: React.FC = () => {
     return getCourseLabelsRead(courseId);
   });
   console.log('getCourseLabelsRead', data);
+  // const { labels, setLabels } = useModel('CourseLabels');
+  // setLabels(data.label);
   if (data === undefined) {
     return <div>loading</div>;
   }
-  const { labels, setLabels } = useModel('CourseLabels');
-  setLabels(data.label);
-
   return (
     <>
       <Tabs defaultActiveKey="1" size="middle">

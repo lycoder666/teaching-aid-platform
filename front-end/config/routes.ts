@@ -11,7 +11,7 @@
       {
         name: 'register',
         path: '/user/register',
-        component: './user/register'
+        component: './user/register',
       },
       {
         component: './404',
@@ -23,14 +23,13 @@
     name: '控制面板',
     path: '/control-panel',
     icon: 'appstore',
-    component: './course/index'
+    component: './course/index',
   },
 
   //题目
   {
     path: '/course/solutionDetail',
     component: './course/solutionDetail',
-
   },
   {
     name: '题目',
@@ -53,13 +52,13 @@
       {
         name: '个人信息',
         path: '/account/center',
-        component: './account/center'
+        component: './account/center',
       },
       // used for change settings
       {
         name: '个人设置',
         path: '/account/settings',
-        component: './account/settings'
+        component: './account/settings',
       },
       {
         component: './404',
@@ -141,6 +140,11 @@
   //   component: './course/solution'
   // },
 
+  {
+    name: 'Test',
+    path: '/test',
+    component: './Test',
+  },
   // default redirect
   {
     component: './404',
