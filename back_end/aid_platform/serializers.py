@@ -4,10 +4,10 @@ from aid_platform import models
 
 # user register
 class UserRegModelSerializer(serializers.ModelSerializer):
-    last_login = serializers.IntegerField(write_only=True)
+    # loggedAt = serializers.IntegerField(write_only=True)
     class Meta:
         model = models.UserInfo
-        fields = ['username', 'password', 'email', 'last_login']
+        fields = ['username', 'password', 'email', 'loggedAt']
     # def validate_username(self, attr: str):
     #     if len(attr) > 16 or len(attr) < 8:
     #         raise serializers.ValidationError("the length of user name should between 8-16")
@@ -33,7 +33,15 @@ class CourseInfoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class UserCourseListPartialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CourseInfo
+        fields = ['id', 'courseName']
+
+
 class UserCourseListSerializer(serializers.ModelSerializer):
+    study = UserCourseListPartialSerializer(many=True, read_only=True)
+
     class Meta:
         model = models.UserInfo
         fields = ['id', 'study']
@@ -92,6 +100,12 @@ class ProblemInfoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProblemPartialDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ProblemInfo
+        fields = ['id', 'problemName', 'problemContent']
+
+
 class ProblemListSerializer(serializers.ModelSerializer):
     mark = LabelProblemListInfoSerializer(many=True, read_only=True)
 
@@ -146,14 +160,40 @@ class CourseLabelListSerializer(serializers.ModelSerializer):
 
 
 class ProblemListRelationshipSerializer(serializers.ModelSerializer):
+    mark = LabelProblemListInfoSerializer(many=True, read_only=True)
+
     class Meta:
         model = models.ProblemInfo
-        fields = ['id', 'problemName', 'isSolved', 'changedAt', 'createdAt']
+        fields = ['id', 'problemName', 'mark', 'isSolved', 'changedAt', 'createdAt']
 
 
 class LabelProblemListDetailSerializer(serializers.ModelSerializer):
-    markProblem = ProblemListRelationshipSerializer(source='labelMark', many=True,read_only=True)
+    markProblem = ProblemListRelationshipSerializer(source='labelMark', many=True, read_only=True)
 
     class Meta:
         model = models.LabelInfo
         fields = ['id', 'markProblem']
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.LikeUser2Solution
+        fields = '__all__'
+
+
+class CollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CollectionUser2Solution
+        fields = '__all__'
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CommentUser2Solution
+        fields = '__all__'
+
+
+class MarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MarkProblem2Label
+        fields = '__all__'

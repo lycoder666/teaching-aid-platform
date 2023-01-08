@@ -53,7 +53,7 @@ class ProblemInfo(models.Model):
     problemContent = models.TextField(verbose_name="problem content")
     solutionCount = models.IntegerField(default=0, verbose_name="solution count")
     course = models.ForeignKey(CourseInfo, default=1, on_delete=models.CASCADE, related_name='problem', verbose_name='belong course')
-    # foreignkey course value default is 0
+    # foreignkey course value default is 1
     mark = models.ManyToManyField(to='LabelInfo', through='MarkProblem2Label',
                                   through_fields=('problem', 'label'), related_name='labelMark')
     createdAt = models.BigIntegerField(default=ceil(time.time() * 1000))
@@ -134,6 +134,7 @@ class StudyUser2Course(models.Model):
     user = models.ForeignKey(to=UserInfo, on_delete=models.CASCADE)
     course = models.ForeignKey(to=CourseInfo, on_delete=models.CASCADE)
     # time = models.DateField
+
     class Meta:
         db_table = 'study'
 

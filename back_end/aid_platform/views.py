@@ -56,16 +56,21 @@ class CheckUsernameView(ModelViewSet):
 
 
 # register page/ for user registing
-class UserRegView(ModelViewSet):
-    queryset = UserInfo.objects.all()
-    serializer_class = UserRegModelSerializer
-    # def post(self, request):
-    #     # username = request.data['username']
-    #     # password = request.data['password']
-    #     # email = request.data['email']
-    #     user = self.get_object()
-    #     data = request.data
-    #     return Response()
+# class UserRegView(ModelViewSet):
+class UserRegView(APIView):
+    # queryset = UserInfo.objects.all()
+    # serializer_class = UserRegModelSerializer
+
+    def post(self, request):
+        # username = request.data['username']
+        # password = request.data['password']
+        # email = request.data['email']
+        # user = self.get_object()
+        data = request.data
+        serializer = UserRegModelSerializer(data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(True)
 
 
 from rest_framework_jwt.settings import api_settings
@@ -162,8 +167,15 @@ class CourseDetailView(ModelViewSet):  # easy way
 
 
 class ProblemListView(ModelViewSet):
+    authentication_classes = [MyJSONWebTokenAuthentication]
     queryset = CourseInfo.objects.all()
     serializer_class = CourseProblemListSerializer
+
+
+class ProblemDetailView(ModelViewSet):
+    authentication_classes = [MyJSONWebTokenAuthentication]
+    queryset = ProblemInfo.objects.all()
+    serializer_class = ProblemPartialDetailSerializer
 
 
 # class SolutionListView(APIView):
@@ -179,24 +191,181 @@ class ProblemListView(ModelViewSet):
 
 
 class SolutionListView(ModelViewSet):
+    authentication_classes = [MyJSONWebTokenAuthentication]
     queryset = ProblemInfo.objects.all()
     serializer_class = ProblemSolutionListSerializer
 
 
 class LabelListView(ModelViewSet):
+    authentication_classes = [MyJSONWebTokenAuthentication]
     queryset = CourseInfo.objects.all()
     serializer_class = CourseLabelListSerializer
 
 
 class ProblemLabelListView(ModelViewSet):
+    authentication_classes = [MyJSONWebTokenAuthentication]
     queryset = LabelInfo.objects.all()
     serializer_class = LabelProblemListDetailSerializer
 
 
+class ProblemLikeView(APIView):
+    authentication_classes = [MyJSONWebTokenAuthentication]
+    # queryset = LikeUser2Solution.objects.all()
+    # serializer_class = LikeSerializer
+    def get(self, request):
+        myauth = MyJSONWebTokenAuthentication()
+        auth = myauth.authenticate(request)
+        user_id = auth[0]['id']
+        solution_id = request.data['solution_id']
+        is_liked = LikeUser2Solution.objects.filter(user_id=user_id, solution_id=solution_id).first()
+        likes = LikeUser2Solution.objects.filter(solution_id=solution_id).count()
+        if is_liked:
+            return Response({'is_liked': True, 'likes': likes})
+        else:
+            return Response({'is_liked': False, 'likes': likes})
+    def post(self,request):
+        myauth = MyJSONWebTokenAuthentication()
+        auth = myauth.authenticate(request)
+        user_id = auth[0]['id']
+        # print(user_id)
+        solution_id = request.data['solution_id']
+        is_liked = request.data['is_liked']
+        if is_liked:
+            # print('////// 111111///////////')
+            LikeUser2Solution.objects.filter(user=user_id, solution=solution_id).delete()
+            return Response(True)
+        else:
+            # print('*****   1   *******')
+            data = {'user': user_id, 'solution': solution_id}
+            # data = request.data
+            # print(user_id)
+            # print(data)
+            serializer = LikeSerializer(data=data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(True)
+
+
+class ProblemCollectView(APIView):
+    authentication_classes = [MyJSONWebTokenAuthentication]
+    # queryset = LikeUser2Solution.objects.all()
+    # serializer_class = LikeSerializer
+    def get(self, request):
+        myauth = MyJSONWebTokenAuthentication()
+        auth = myauth.authenticate(request)
+        user_id = auth[0]['id']
+        solution_id = request.data['solution_id']
+        is_stared = CollectionUser2Solution.objects.filter(user_id=user_id, solution_id=solution_id).first()
+        stars = CollectionUser2Solution.objects.filter(solution_id=solution_id).count()
+        if is_stared:
+            return Response({'is_stared': True, 'stars': stars})
+        else:
+            return Response({'is_stared': False, 'stars': stars})
+    def post(self,request):
+        myauth = MyJSONWebTokenAuthentication()
+        auth = myauth.authenticate(request)
+        user_id = auth[0]['id']
+        # print(user_id)
+        solution_id = request.data['solution_id']
+        is_stared = request.data['is_stared']
+        if is_stared:
+            # print('////// 111111///////////')
+            CollectionUser2Solution.objects.filter(user=user_id, solution=solution_id).delete()
+            return Response(True)
+        else:
+            # print('*****   1   *******')
+            data = {'user': user_id, 'solution': solution_id}
+            # data = request.data
+            # print(user_id)
+            # print(data)
+            serializer = CollectionSerializer(data=data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(True)
+
+
+class SolutionCommentView(APIView):
+    authentication_classes = [MyJSONWebTokenAuthentication]
+
+    def get(self, request):
+        myauth = MyJSONWebTokenAuthentication()
+        auth = myauth.authenticate(request)
+        solution_id = request.data['solution_id']
+        comments = CommentUser2Solution.objects.filter(solution_id=solution_id)
+        serializer = CommentSerializer(instance=comments, many=True)
+        return Response(serializer.data)
+
+
+class AddProblemView(APIView):
+    authentication_classes = [MyJSONWebTokenAuthentication]
+
+    def post(self, request):
+        myauth = MyJSONWebTokenAuthentication()
+        auth = myauth.authenticate(request)
+
+        problem_name = request.data['title']
+        tags = request.data['tags']
+        problem_content = request.data['description']
+        course_id = request.data['course_id']
+        data_problem = {'problemName': problem_name, 'problemContent': problem_content, 'course': course_id, 'mark': tags}
+        print(data_problem)
+        serializer_problem = ProblemInfoSerializer(data=data_problem)
+        serializer_problem.is_valid(raise_exception=True)
+        problem = serializer_problem.save()  # add problem
+        problem_ser = ProblemInfoSerializer(instance=problem)
+        problem_id = problem_ser.data['id']  # get id of new problem
+        # print(pro_ser.data)
+        # print(pro_ser.data['id'])
+        # print(type(pro_ser))
+        for tag in tags:  # add relation mark
+            data_label = {'label': tag, 'problem': problem_id, 'course': course_id}
+            serializer = MarkSerializer(data=data_label)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+        # problem_new = ProblemInfo.objects.filter(id=problem_id).all()
+        # serializer = ProblemInfoSerializer(instance=problem_new, many=True)
+        # return Response(serializer.data)
+        return Response(True)
+
+
+class AddSolutionView(APIView):
+    authentication_classes = [MyJSONWebTokenAuthentication]
+
+    def post(self, request):
+        myauth = MyJSONWebTokenAuthentication()
+        auth = myauth.authenticate(request)
+        user_id = auth[0]['id']
+
+        solution_name = request.data['title']
+        solution_content = request.data['description']
+        problem_id = request.data['problem_id']
+        data = {'user': user_id, 'solutionName': solution_name, 'solutionContent': solution_content, 'problem': problem_id}
+        serializer = SolutionInfoSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(True)
+
+
+class AddCommentView(APIView):
+    authentication_classes = [MyJSONWebTokenAuthentication]
+
+    def post(self, request):
+        myauth = MyJSONWebTokenAuthentication()
+        auth = myauth.authenticate(request)
+        user_id = auth[0]['id']
+
+        solution_id = request.data['solutionId']
+        comment_content = request.data['content']
+        data = {'user': user_id, 'solution': solution_id, 'commentContent': comment_content}
+        serializer = CommentSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(True)
+
 """
 TODO: label： list √
-      like:create destroy count
+      like:create destroy count √
       comment:create count
-      collect:create destroy count retrieve list
+      collect:create destroy count retrieve list 
 """
 
