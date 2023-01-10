@@ -10,7 +10,10 @@ const handleChange = (value: string[]) => {
   console.log(`selected ${value}`);
 };
 
-const SummitComponent: React.FC = () => {
+type IProps = {
+  flag: number
+}
+const SummitComponent: React.FC<IProps> = (props: IProps) => {
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -36,22 +39,24 @@ const SummitComponent: React.FC = () => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        label="标签"
-        name="tags"
-        rules={[{ required: true, message: '请选择至少一个标签' }]}
-        hidden={false}
-      >
-        <Select
-          mode="multiple"
-          allowClear
-          style={{ width: '100%' }}
-          placeholder="请选择"
-          defaultValue={['章节0']}
-          options={options}
-          onChange={handleChange}
-        />
-      </Form.Item>
+      {props.flag &&
+        <Form.Item
+          label="标签"
+          name="tags"
+          rules={[{required: true, message: '请选择至少一个标签'}]}
+          hidden={false}
+        >
+          <Select
+            mode="multiple"
+            allowClear
+            style={{width: '100%'}}
+            placeholder="请选择"
+            defaultValue={['章节0']}
+            options={options}
+            onChange={handleChange}
+          />
+        </Form.Item>
+      }
       <Form.Item
         label="描述"
         name="description"
