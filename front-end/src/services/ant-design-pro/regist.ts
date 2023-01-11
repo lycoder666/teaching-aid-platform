@@ -4,13 +4,12 @@ import { request } from 'umi';
 
 /** 此处后端没有提供注释 POST /regist/ */
 export async function registCreate(body: API.RegistInfo, options?: { [key: string]: any }) {
-  return request<boolean>('/regist/', {
+  return request<boolean>('/api/regist/', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     data: body,
     ...(options || {}),
   });
-
 }

@@ -8,6 +8,8 @@ import { ProCard } from '@ant-design/pro-components';
 import { useLocation } from 'umi';
 import { useRequest } from 'umi';
 import { request } from 'umi';
+import { useModel } from 'umi';
+import { useEffect } from 'react';
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -15,12 +17,23 @@ const { Title } = Typography;
 const ProblemsPage: React.FC = () => {
   const location = useLocation();
   const courseId = location?.state?.courseId;
+  const getCourseLabels = async (id: number) => {
+    const data = await request<API.CourseLabelList>(`/api/getCourseLabels/${id}/`, {
+      method: 'get',
+    });
+    return data;
+  };
+
   //获取课程所对应的标签
   const { data, error, loading } = useRequest<API.CourseLabelList>(() => {
-    return getCourseLabelsRead(courseId);
+    return getCourseLabels(courseId);
   });
-  // const { labels, setLabels } = useModel('CourseLabels');
-  // setLabels(data.label);
+  console.log('data', data?.label);
+  const { labels, setLabels } = useModel('CourseLabels');
+  useEffect(() => {
+    setLabels(data?.label);
+  });
+  console.log(labels);
 
   if (error) {
     return <div>Error info</div>;
@@ -38,7 +51,7 @@ const ProblemsPage: React.FC = () => {
   return (
     <>
       <Tabs defaultActiveKey="1" size="middle">
-        {data.labels.map((l) => (
+        {data.label.map((l) => (
           <TabPane tab={l.labelName} key={l.id}>
             <ProblemList labelId={l.id} />
           </TabPane>
@@ -48,7 +61,7 @@ const ProblemsPage: React.FC = () => {
       <OCRComponet />
       <Title level={3}>发布题目</Title>
       <ProCard style={{ borderRadius: 5 }}>
-        <SubmitComponent flag={1}/>
+        <SubmitComponent flag={1} />
       </ProCard>
     </>
   );

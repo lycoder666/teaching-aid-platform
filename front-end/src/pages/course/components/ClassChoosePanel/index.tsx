@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ProCard } from '@ant-design/pro-components';
 import { Card, Col, Row } from 'antd';
 import { Link } from 'umi';
-import { getUserCoursesRead } from '@/services/ant-design-pro/getUserCourses';
+import getUserCoursesRead from '@/services/ant-design-pro/getUserCourses';
 import { useModel } from '@@/plugin-model/useModel';
 import { useRequest } from 'umi';
 
@@ -58,7 +58,7 @@ const Classes: React.FC = () => {
       }}
     >
       {courses.map((course) => (
-        <Link to={{ pathname: '/course/problems', state: { courseId: course.courseId } }}>
+        <Link to={{ pathname: '/course/problems', state: { courseId: course.id } }}>
           <ProCard
             title={course.courseName}
             bordered

@@ -7,6 +7,7 @@ import { Typography } from 'antd';
 import { ProCard } from '@ant-design/pro-components';
 import { useLocation } from 'umi';
 import { useRequest } from '@@/plugin-request/request';
+import { request } from 'umi';
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -17,11 +18,9 @@ const ProblemsPage: React.FC = () => {
 
   //获取课程所对应的标签
   const { data, error, loading } = useRequest<API.CourseLabelList>(() => {
-    console.log('courseId', courseId);
-    console.log('getCourseLabelsRead inside hook', getCourseLabelsRead(courseId));
     return getCourseLabelsRead(courseId);
   });
-  console.log('getCourseLabelsRead', data);
+
   // const { labels, setLabels } = useModel('CourseLabels');
   // setLabels(data.label);
   if (data === undefined) {
@@ -40,7 +39,7 @@ const ProblemsPage: React.FC = () => {
       <OCRComponet />
       <Title level={3}>发布题目</Title>
       <ProCard style={{ borderRadius: 5 }}>
-        <SubmitComponent flag={1}/>
+        <SubmitComponent flag={1} />
       </ProCard>
     </>
   );

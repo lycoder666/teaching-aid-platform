@@ -9,7 +9,7 @@ export async function getProblemSolutionsRead(
   options?: { [key: string]: any },
 ) {
   const { problemId: param0, ...queryParams } = params;
-  return request<API.ProblemSolutionList>(`/getProblemSolutions/${param0}/`, {
+  return request<API.ProblemSolutionList>(`/api/getProblemSolutions/${param0}/`, {
     method: 'GET',
     params: { ...queryParams },
     ...(options || {}),

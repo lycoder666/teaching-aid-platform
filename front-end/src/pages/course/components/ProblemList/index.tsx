@@ -6,6 +6,7 @@ import { Button, Dropdown, Space, Tag } from 'antd';
 import { Link } from 'umi';
 import { useRequest } from '@@/plugin-request/request';
 import { useModel } from 'umi';
+import { request } from 'umi';
 
 const label_color_map = new Map();
 
@@ -22,10 +23,19 @@ type ProblemItem = {
 };
 
 const TableList: React.FC<IProps> = (props: IProps) => {
+  const getLabelProblems = async (id: number) => {
+    const data = await request(`/api/getLabelProblems/${id}/`, {
+      method: 'get',
+    });
+    console.log('getLabelProblems', data);
+
+    return data;
+  };
   const { labels, setLabels } = useModel('CourseLabels');
   const { data, error, loading } = useRequest(() => {
-    return getLabelProblemsRead(props);
+    return getLabelProblems(props.labelId);
   });
+
   if (error) {
     return <div>Error info</div>;
   }
@@ -85,8 +95,8 @@ const TableList: React.FC<IProps> = (props: IProps) => {
         return (
           <Space>
             {Array.from(record.mark.values()).map((item) => (
-              <Tag color={item.color} key={record.id}>
-                {item.text}
+              <Tag color="green" key={item.id}>
+                {item.labelName}
               </Tag>
             ))}
           </Space>
@@ -117,12 +127,13 @@ const TableList: React.FC<IProps> = (props: IProps) => {
     },
   ];
 
-  const problemList = data.problemList;
+  const problemList = data.markProblem;
 
-  problemList.mark = problemList.mark.map((m) => [
-    m.labelName,
-    { id: m.id, text: m.labelName, status: 'Error', color: 'green' },
-  ]);
+  // problemList.mark = problemList.mark.map((m: any) => [
+  //   m.labelName,
+  //   { id: m.id, text: m.labelName, status: 'Error', color: 'green' },
+  // ]);
+
   return (
     <ProTable<ProblemItem>
       columns={columns}

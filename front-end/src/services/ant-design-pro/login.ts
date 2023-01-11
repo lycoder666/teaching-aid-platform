@@ -4,9 +4,9 @@ import { request } from 'umi';
 
 /** :param POST /login/ */
 export async function loginCreate(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/login/', {
+  return request<API.LoginResult>('/api/login/', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     data: body,
     ...(options || {}),
   });
