@@ -197,3 +197,24 @@ class MarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MarkProblem2Label
         fields = '__all__'
+
+
+# GetSolutionsPublishedByUser
+class GetSolutionsPublishedByUserSolutionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SolutionInfo
+        fields = ['id', 'solutionName', 'createdAt', 'changedAt']
+
+
+class GetProblemLablesByProblemIDSerializer(serializers.ModelSerializer):
+    mark = LabelCourseLabelListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.ProblemInfo
+        fields = ['id', 'mark']
+
+
+class GetInstructorCourseByIDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CourseInfo
+        exclude = ['instructor']
