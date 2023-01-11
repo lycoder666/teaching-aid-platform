@@ -6,7 +6,8 @@ import { getCourseLabelsRead } from '@/services/ant-design-pro/getCourseLabels';
 import { Typography } from 'antd';
 import { ProCard } from '@ant-design/pro-components';
 import { useLocation } from 'umi';
-import { useRequest } from '@@/plugin-request/request';
+import { useRequest } from 'umi';
+import { request } from 'umi';
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -14,23 +15,30 @@ const { Title } = Typography;
 const ProblemsPage: React.FC = () => {
   const location = useLocation();
   const courseId = location?.state?.courseId;
-
   //获取课程所对应的标签
   const { data, error, loading } = useRequest<API.CourseLabelList>(() => {
-    console.log('courseId', courseId);
-    console.log('getCourseLabelsRead inside hook', getCourseLabelsRead(courseId));
     return getCourseLabelsRead(courseId);
   });
-  console.log('getCourseLabelsRead', data);
   // const { labels, setLabels } = useModel('CourseLabels');
   // setLabels(data.label);
-  if (data === undefined) {
-    return <div>loading</div>;
+
+  if (error) {
+    return <div>Error info</div>;
   }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (data?.id === undefined) {
+    return <div>loading</div>;
+  } else {
+    JSON.stringify(data);
+  }
+
   return (
     <>
       <Tabs defaultActiveKey="1" size="middle">
-        {data.label.map((l) => (
+        {data.labels.map((l) => (
           <TabPane tab={l.labelName} key={l.id}>
             <ProblemList labelId={l.id} />
           </TabPane>

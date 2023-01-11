@@ -1,0 +1,10 @@
+import request from 'umi-request';
+
+const getProblemDescriptionByProblemID = (params: { problemID: number }) => {
+  return request(`/api/getProblemDescriptionByProblemID/${params.problemID}}`, {
+    method: 'GET',
+    params: params,
+  });
+};
+
+export default getProblemDescriptionByProblemID;

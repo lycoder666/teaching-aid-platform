@@ -9,7 +9,7 @@ export async function getLabelProblemsRead(
   options?: { [key: string]: any },
 ) {
   const { labelId: param0, ...queryParams } = params;
-  return request<API.TProblemList>(`/getLabelProblems/${param0}/`, {
+  return request<API.TProblemList>(`/api/getLabelProblems/(\\d+)`, {
     method: 'GET',
     params: { ...queryParams },
     ...(options || {}),

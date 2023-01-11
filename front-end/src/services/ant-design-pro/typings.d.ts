@@ -11,7 +11,7 @@ declare namespace API {
   type CourseLabelList = {
     /** ID */
     id?: number;
-    label?: LabelCourseLabelList[];
+    labels?: LabelCourseLabelList[];
   };
 
   type TProblemList = {
@@ -174,5 +174,38 @@ declare namespace API {
   type Stared = {
     stars: number;
     isStared: boolean;
+  };
+
+  type ProblemDescription = {
+    description: string;
+  };
+
+  type ProblemID = {
+    id: number;
+  };
+
+  type SolutionID = {
+    id: number;
+  };
+
+  type SolutionDescription = {
+    description: string;
+  };
+
+  type TLastLoginTime = {
+    lastLoginTime: number;
+  };
+
+  type TUserCreatedTime = {
+    createdTime: number;
+  };
+
+  type TProblemUpdatedAt = {
+    updatedTime: number;
+  };
+
+  type TLabel = {
+    id: number;
+    name: string;
   };
 }

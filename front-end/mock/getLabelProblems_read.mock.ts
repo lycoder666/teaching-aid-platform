@@ -1,8 +1,8 @@
 // @ts-ignore
-import { Request, Response } from 'express';
+import { Request, Response } from 'umi';
 
 export default {
-  'GET /getLabelProblems/{id}/': (req: Request, res: Response) => {
+  'GET /api/getLabelProblems/(\\d+)': (req: Request, res: Response) => {
     res.status(200).send({
       id: 66,
       markProblem: [

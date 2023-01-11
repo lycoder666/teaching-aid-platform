@@ -3,12 +3,12 @@
 import { request } from 'umi';
 
 /** 此处后端没有提供注释 GET /getUserCourses/${param0}/ */
-export async function getUserCoursesRead(id: number|undefined){
+export async function getUserCoursesRead(id: number | undefined) {
   // const url = '/getUserCourses/' + String(id) + '/';
-  return request<API.UserCourseList>(`/getUserCourses/`, {
+  return request<API.UserCourseList>(`/getUserCourses/${id}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
   });
 }

@@ -21,21 +21,17 @@ const Classes: React.FC = () => {
   const { data, error, loading } = useRequest(() => {
     return getUserCoursesRead(uid);
   });
-  console.log('this is ', data);
-
   // const d = async () =>{
   //   await getUserCoursesRead(uid).then((d1) => {
   //     // console.log(d1)
   //     courses = d1.study});
   // }
   // const courses = data.study;
-
-  let courses;
-  if (data === undefined) {
-    return <div>loading</div>;
-  } else {
-    console.log(courses);
-    courses = data.study;
+  if (error) {
+    return <div>Error info</div>;
+  }
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   // const s = async () => {
@@ -47,9 +43,10 @@ const Classes: React.FC = () => {
   // console.log('courses', courses)
   // d();
   // console.log('fdsfd', typeof courses)
-  if (courses === undefined) {
+  if (data === undefined) {
     return <div>loading</div>;
   }
+  const courses = data.study;
   return (
     <div
       style={{

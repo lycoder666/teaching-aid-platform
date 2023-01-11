@@ -11,7 +11,7 @@ import { request } from 'umi';
 export async function checkUsername(username: string, options?: { [key: string]: any }) {
   return request<any>('/check_username/', {
     method: 'GET',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     data: username,
     ...(options || {}),
   });

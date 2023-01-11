@@ -1,20 +1,16 @@
 import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import {getLabelProblemsRead} from "@/services/ant-design-pro/getLabelProblems";
+import { getLabelProblemsRead } from '@/services/ant-design-pro/getLabelProblems';
 import { Button, Dropdown, Space, Tag } from 'antd';
-import { useRef } from 'react';
-import { Typography } from 'antd';
-import request from 'umi-request';
-import { random } from 'lodash';
 import { Link } from 'umi';
-import {useRequest} from "@@/plugin-request/request";
-import {useModel} from "umi";
+import { useRequest } from '@@/plugin-request/request';
+import { useModel } from 'umi';
 
 const label_color_map = new Map();
 
 type IProps = {
-  labelId: number
+  labelId: number;
 };
 
 type ProblemItem = {
@@ -25,121 +21,108 @@ type ProblemItem = {
   mark: Map<string, { id: number; text: string; status: string; color: string }>;
 };
 
-
-
-
-const staticData: ProblemItem[] = [];
-for (let i = 0; i < 100; i++) {
-  staticData.push({
-    id: i,
-    title: `题目 ${i}`,
-    createdAt: Date.now() - random() * 1000 * 60 * 60 * 24 * 30,
-    updatedAt:
-      Date.now() - random() * 1000 * 60 * 60 * 24 * 30 + random() * 1000 * 60 * 60 * 24 * 30,
-    labels: new Map([
-      [
-        'Chapter' + random(0, 9),
-        { id: 1, text: '章节' + random(0, 9), status: 'Error', color: 'red' },
-      ],
-      [
-        'Chapter' + random(0, 9),
-        { id: 2, text: '章节' + random(0, 9), status: 'Error', color: 'green' },
-      ],
-      [
-        'Chapter' + random(0, 9),
-        { id: 3, text: '章节' + random(0, 9), status: 'Error', color: 'blue' },
-      ],
-    ]),
-  });
-}
-
 const TableList: React.FC<IProps> = (props: IProps) => {
   const { labels, setLabels } = useModel('CourseLabels');
+  const { data, error, loading } = useRequest(() => {
+    return getLabelProblemsRead(props);
+  });
+  if (error) {
+    return <div>Error info</div>;
+  }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  console.log('labels', labels);
 
   for (let i = 0; i < labels.length; i++) {
     label_color_map.set(labels[i].labelName, {
       id: i,
       text: labels[i].labelName,
-      status: 'Error',
+      status: 'error',
       color: 'red',
     });
   }
-  const columns: ProColumns<ProblemItem>[] = [
-  {
-    dataIndex: 'index',
-    valueType: 'indexBorder',
-    width: 48,
-  },
-  {
-    title: '题目',
-    dataIndex: 'problemName',
-    copyable: true,
-    ellipsis: true,
-    tip: 'Title is too long will be hidden automatically',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: 'This field is required',
-        },
-      ],
-    },
-    render: (dom, record: ProblemItem) => {
-      return <Link to={{pathname: `/course/problems/detail`, state: {problemId: record.id}}}>{record.problemName}</Link>;
-    },
-  },
-  {
-    title: '标签',
-    dataIndex: 'mark',
-    ellipsis: true,
-    valueType: 'select',
-    valueEnum: label_color_map,
-    search: false,
-    filters: true,
-    onFilter: true,
 
-    render: (dom, record: ProblemItem) => {
-      return (
-        <Space>
-          {Array.from(record.mark.values()).map((item) => (
-            <Tag color={item.color} key={record.id}>
-              {item.text}
-            </Tag>
-          ))}
-        </Space>
-      );
+  const columns: ProColumns<ProblemItem>[] = [
+    {
+      dataIndex: 'index',
+      valueType: 'indexBorder',
+      width: 48,
     },
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createdAt',
-    valueType: 'dateTime',
-    sorter: (a: ProblemItem, b: ProblemItem) => a.createdAt - b.createdAt,
-    hideInForm: true,
-    hideInSearch: true,
-    render: (dom, record: ProblemItem) => {
-      return <span>{new Date(record.createdAt).toLocaleString()}</span>;
+    {
+      title: '题目',
+      dataIndex: 'problemName',
+      copyable: true,
+      ellipsis: true,
+      tip: 'Title is too long will be hidden automatically',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 'This field is required',
+          },
+        ],
+      },
+      render: (dom, record: ProblemItem) => {
+        return (
+          <Link to={{ pathname: `/course/problems/detail`, state: { problemId: record.id } }}>
+            {record.problemName}
+          </Link>
+        );
+      },
     },
-  },
-  {
-    title: '更新时间',
-    dataIndex: 'changedAt',
-    valueType: 'dateTime',
-    sorter: (a: ProblemItem, b: ProblemItem) => a.changedAt - b.changedAt,
-    hideInForm: true,
-    hideInSearch: true,
-    render: (dom, record: ProblemItem) => {
-      return <span>{new Date(record.changedAt).toLocaleString()}</span>;
+    {
+      title: '标签',
+      dataIndex: 'mark',
+      ellipsis: true,
+      valueType: 'select',
+      valueEnum: label_color_map,
+      search: false,
+      filters: true,
+      onFilter: true,
+
+      render: (dom, record: ProblemItem) => {
+        return (
+          <Space>
+            {Array.from(record.mark.values()).map((item) => (
+              <Tag color={item.color} key={record.id}>
+                {item.text}
+              </Tag>
+            ))}
+          </Space>
+        );
+      },
     },
-  },
-];
-  const {data} = useRequest(() =>{
-    return getLabelProblemsRead(props);
-  })
+    {
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      valueType: 'dateTime',
+      sorter: (a: ProblemItem, b: ProblemItem) => a.createdAt - b.createdAt,
+      hideInForm: true,
+      hideInSearch: true,
+      render: (dom, record: ProblemItem) => {
+        return <span>{new Date(record.createdAt).toLocaleString()}</span>;
+      },
+    },
+    {
+      title: '更新时间',
+      dataIndex: 'changedAt',
+      valueType: 'dateTime',
+      sorter: (a: ProblemItem, b: ProblemItem) => a.changedAt - b.changedAt,
+      hideInForm: true,
+      hideInSearch: true,
+      render: (dom, record: ProblemItem) => {
+        return <span>{new Date(record.changedAt).toLocaleString()}</span>;
+      },
+    },
+  ];
 
   const problemList = data.problemList;
 
-  problemList.mark = problemList.mark.map(m => [m.labelName, {id: m.id, text: m.labelName, status: 'Error', color: 'green'}]);
+  problemList.mark = problemList.mark.map((m) => [
+    m.labelName,
+    { id: m.id, text: m.labelName, status: 'Error', color: 'green' },
+  ]);
   return (
     <ProTable<ProblemItem>
       columns={columns}

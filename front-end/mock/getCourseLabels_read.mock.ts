@@ -2,10 +2,10 @@
 import { Request, Response } from 'express';
 
 export default {
-  'GET /getCourseLabels/{id}/': (req: Request, res: Response) => {
+  'GET /api/getCourseLabels/(\\d+)': (req: Request, res: Response) => {
     res.status(200).send({
       id: 94,
-      label: [
+      labels: [
         { id: 60, labelName: '断次接集完据还十许红积备。' },
         { id: 69, labelName: '争交人即交就图行习价查集并们先每。' },
         { id: 99, labelName: '使直风局置指引周会据地好根。' },
