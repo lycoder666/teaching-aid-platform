@@ -37,7 +37,7 @@ const ProblemDescription: React.FC<IProps> = (props: IProps) => {
       <OCRComponet />
       <Title level={3}>发布题解</Title>
       <ProCard  style={{borderRadius: 5}}>
-        <SubmitComponent />
+        <SubmitComponent flag={0}/>
       </ProCard>
     </>
   );

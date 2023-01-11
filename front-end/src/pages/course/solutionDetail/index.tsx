@@ -1,6 +1,6 @@
 import {FC} from "react";
 import ReactMarkdown from "react-markdown";
-import {Avatar, List} from "antd";
+import {Avatar, Button, Form, Input, List, Select} from "antd";
 import gfm from 'remark-gfm'
 import 'katex/dist/katex.min.css';
 import rehypeKatex from 'rehype-katex'
@@ -85,6 +85,29 @@ const SolutionDetail: FC<IProps> = (props) => {
             </List.Item>
           )}
         />
+
+        <Form
+          name="addComment"
+          wrapperCol={{ span: 16 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="内容"
+            name="content"
+            // rules={[{ required: true, message: '请输入题目描述' }]}
+            wrapperCol={{ span: 16, offset: 0 }}
+          >
+            <Input.TextArea style={{height: 300}} />
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              发布
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     </div>
 
