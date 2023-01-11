@@ -19,10 +19,9 @@ type IProps = {
 const SummitComponent: React.FC<IProps> = (props: IProps) => {
   const [form] = Form.useForm();
   const { labels, setLabels } = useModel('CourseLabels');
-  while (labels === undefined) {
-    console.log('wait course label model');
-  }
+
   console.log('labels_new', labels);
+
   // const mylabels = labels.map((item) => {
   //   return { label: item.labelName, value: item.id };
   // });

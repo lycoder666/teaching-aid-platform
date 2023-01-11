@@ -24,14 +24,6 @@ const ProblemsPage: React.FC = () => {
     console.log('inner getCourseLabels', data);
     return data;
   };
-  const getCourseLabelsTest = async (id: number) => {
-    const data = await request<API.CourseLabelList>(`/api/getCourseLabels/${id}/`, {
-      method: 'GET',
-    });
-    console.log('inner getCourseLabelsTest', data);
-    return data;
-  };
-  getCourseLabelsTest(courseId);
   //获取课程所对应的标签
   const { data, error, loading } = useRequest<API.CourseLabelList>(() => {
     return getCourseLabels(courseId);
