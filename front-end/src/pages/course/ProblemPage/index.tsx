@@ -6,10 +6,10 @@ import { getCourseLabelsRead } from '@/services/ant-design-pro/getCourseLabels';
 import { Typography } from 'antd';
 import { ProCard } from '@ant-design/pro-components';
 import { useLocation } from 'umi';
-import { useRequest } from 'umi';
 import { request } from 'umi';
 import { useModel } from 'umi';
 import { useEffect } from 'react';
+import { useRequest } from '@umijs/hooks';
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -19,21 +19,27 @@ const ProblemsPage: React.FC = () => {
   const courseId = location?.state?.courseId;
   const getCourseLabels = async (id: number) => {
     const data = await request<API.CourseLabelList>(`/api/getCourseLabels/${id}/`, {
-      method: 'get',
+      method: 'GET',
     });
+    console.log('inner getCourseLabels', data);
     return data;
   };
-
+  const getCourseLabelsTest = async (id: number) => {
+    const data = await request<API.CourseLabelList>(`/api/getCourseLabels/${id}/`, {
+      method: 'GET',
+    });
+    console.log('inner getCourseLabelsTest', data);
+    return data;
+  };
+  getCourseLabelsTest(courseId);
   //获取课程所对应的标签
   const { data, error, loading } = useRequest<API.CourseLabelList>(() => {
     return getCourseLabels(courseId);
   });
-  console.log('data', data?.label);
   const { labels, setLabels } = useModel('CourseLabels');
   useEffect(() => {
     setLabels(data?.label);
-  });
-  console.log(labels);
+  }, []);
 
   if (error) {
     return <div>Error info</div>;
