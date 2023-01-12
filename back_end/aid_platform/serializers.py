@@ -218,3 +218,9 @@ class GetInstructorCourseByIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseInfo
         exclude = ['instructor']
+
+
+class GetUnreviewdSolutionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SolutionInfo
+        fields = ['id', 'solutionName', 'createdAt']

@@ -26,7 +26,7 @@ SECRET_KEY = 'f!jh4vlyz)dsltwcm2&wf7bt-&r$zde436*zs320()#k8p44=='
 DEBUG = True
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['enchatbot.natapp1.cc']
 
 
 # jwt111

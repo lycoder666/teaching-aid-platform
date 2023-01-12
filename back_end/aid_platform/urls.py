@@ -24,8 +24,9 @@ urlpatterns = [
     url(r'api/deleteCourseDetail/(?P<pk>\d+)/$', views.CourseDetailView.as_view({'delete': 'destroy'})),
 
     # url(r'api/getProblemDetail/(?P<pk>\d+)/$', views.ProblemDetailView.as_view({'get': 'retrieve', 'delete': 'destroy'})),
-    url(r'api/getProblemDetail/(?P<pk>\d+)/$',views.ProblemDetailView.as_view({'get': 'retrieve'})),
-    url(r'api/deleteProblemDetail/(?P<pk>\d+)/$',views.ProblemDetailView.as_view({'delete': 'destroy'})),
+    url(r'api/getProblemDetail/(?P<pk>\d+)/$', views.ProblemDetailView.as_view({'get': 'retrieve'})),
+    url(r'api/deleteProblemDetail/(?P<pk>\d+)/$', views.ProblemDetailView.as_view({'delete': 'destroy'})),
+
 
     # getCourseDetail 内instructor还是id形式
     url(r'api/getCourseProblems/(?P<pk>\d+)/$', views.ProblemListView.as_view({'get': 'retrieve'})),
@@ -33,18 +34,24 @@ urlpatterns = [
     url(r'api/getProblemSolutions/(?P<pk>\d+)/$', views.SolutionListView.as_view({'get': 'retrieve'})),
     url(r'api/getCourseLabels/(?P<pk>\d+)/$', views.LabelListView.as_view({'get': 'retrieve'})),
     url(r'api/getLabelProblems/(?P<pk>\d+)/$', views.ProblemLabelListView.as_view({'get': 'retrieve'})),
-    url(r'api/likes/$', views.ProblemLikeView.as_view()),
-    url(r'api/stars/$', views.ProblemCollectView.as_view()),
-    url(r'api/getSolutionComments/$', views.SolutionCommentView.as_view()),
+
+    url(r'api/likes/(?P<pk>\d+)/$', views.ProblemLikeView.as_view()),
+    url(r'api/stars/(?P<pk>\d+)/$', views.ProblemCollectView.as_view()),
+    url(r'api/getSolutionComments/(?P<pk>\d+)/$', views.SolutionCommentView.as_view()),
 
     url(r'api/addProblem/$', views.AddProblemView.as_view()),  # 1
     url(r'api/addSolution/$', views.AddSolutionView.as_view()),  # 2
     url(r'api/addComment/$', views.AddCommentView.as_view()),  # 3
-    url(r'api/getProblemDescriptionByProblemID/$', views.GetProblemDescriptionByProblemIDView.as_view()),  # 5
+    url(r'api/getProblemDescriptionByProblemID/(?P<pk>\d+)/$', views.GetProblemDescriptionByProblemIDView.as_view()),  # 5
     url(r'api/getSolutionsPublishedByUser/$', views.GetSolutionsPublishedByUserView.as_view()),
-    url(r'api/getUnreviewdProblemByClassIDAndUserID/$', views.GetUnreviewdProblemByClassIDAndUserIDView.as_view()),
+    url(r'api/getUnreviewedProblemByClassIDAndUserID/$', views.GetUnreviewdProblemByClassIDAndUserIDView.as_view()),
+    url(r'api/getUnreviewedSolution/$', views.GetUnreviewdSolutionView.as_view()),
+
     url(r'api/getProblemLablesByProblemID/$', views.GetProblemLablesByProblemIDView.as_view()),
     url(r'api/getProblemStatus/$', views.GetProblemStatusView.as_view()),
+    url(r'api/getProblemNameByProblemID/(?P<pk>\d+)/$', views.GetProblemNameView.as_view()),
+    url(r'api/getSolutionDescriptionBySolutionID/(?P<pk>\d+)/$', views.GetSolutionDescriptionBySolutionIDView.as_view()),
+
     url(r'api/changeProblemStatus/$', views.ChangeProblemStatusView.as_view()),  # 9
     url(r'api/changeUserNameByUserID/$', views.ChangeUserNameByUserIDView.as_view()),  # 10
     url(r'api/changeUserPhoneByUserID/$', views.ChangeUserPhoneByUserIDView.as_view()),
@@ -65,5 +72,6 @@ urlpatterns = [
     url(r'api/deleteCommentByID/$', views.DeleteCommentByIDView.as_view()),
     url(r'api/getInstructorCourseByID/$', views.GetInstructorCourseByIDView.as_view()),
     url(r'api/changeSolutionStatus/$', views.ChangeSolutionStatusView.as_view()),  # 9
+    url(r'api/OCR/$', views.OCRView.as_view()),  # 9
 
 ]
