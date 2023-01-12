@@ -6,7 +6,8 @@ import { getCourseLabelsRead } from '@/services/ant-design-pro/getCourseLabels';
 import { Typography } from 'antd';
 import { ProCard } from '@ant-design/pro-components';
 import { useLocation } from 'umi';
-import { useRequest } from '@@/plugin-request/request';
+// import { useRequest } from '@@/plugin-request/request';
+import { useRequest } from 'umi';
 import { request } from 'umi';
 
 const { TabPane } = Tabs;
@@ -17,8 +18,15 @@ const ProblemsPage: React.FC = () => {
   const courseId = location?.state?.courseId;
 
   //获取课程所对应的标签
+  const getCourseLabelsTest = async (id: number) => {
+    const data = await request<API.CourseLabelList>(`/api/getCourseLabels/${id}/`, {
+      method: 'GET'
+    });
+    console.log('inner getCourseLabels', data);
+    return data;
+  };
   const { data, error, loading } = useRequest<API.CourseLabelList>(() => {
-    return getCourseLabelsRead(courseId);
+    return getCourseLabelsTest(courseId);
   });
 
   // const { labels, setLabels } = useModel('CourseLabels');
