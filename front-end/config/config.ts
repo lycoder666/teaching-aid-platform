@@ -20,6 +20,9 @@ export default defineConfig({
     siderWidth: 208,
     ...defaultSettings,
   },
+  // plugins: [
+  //   '@umijs/plugin-mock',
+  // ],
   // https://umijs.org/zh-CN/plugins/plugin-locale
   locale: {
     // default zh-CN
@@ -60,17 +63,21 @@ export default defineConfig({
       requestLibPath: "import { request } from 'umi'",
       // 或者使用在线的版本
       // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
-      schemaPath: join(__dirname, 'oneapi.json'),
-      mock: false,
+      schemaPath: join(__dirname, 'api.json'),
+      mock: true,
     },
-    {
-      requestLibPath: "import { request } from 'umi'",
-      schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
-      projectName: 'swagger',
-    },
+    // {
+    //   requestLibPath: "import { request } from 'umi'",
+    //   schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
+    //   // schemaPath: join(__dirname, 'swagger.json'),
+    //   projectName: 'swagger',
+    // },
   ],
+  request: {
+    dataField: '',
+  },
   nodeModulesTransform: { type: 'none' },
-  mfsu: {},
+  // mfsu: {},
   webpack5: {},
   exportStatic: {},
 });

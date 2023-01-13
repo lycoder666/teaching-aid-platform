@@ -1,0 +1,12 @@
+import { request } from 'umi';
+
+const changeUserNameByUserID = async (userID: number, userName: string) => {
+  return request<boolean>(`/api/changeUserNameByUserID/${userID}/`, {
+    method: 'POST',
+    data: {
+      userName: userName,
+    },
+  });
+};
+
+export default changeUserNameByUserID;

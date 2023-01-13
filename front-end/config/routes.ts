@@ -9,15 +9,101 @@
         component: './user/Login',
       },
       {
+        name: 'register',
+        path: '/user/register',
+        component: './user/register',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+  //control panel
+  {
+    name: '控制面板',
+    path: '/control-panel',
+    icon: 'appstore',
+    component: './course/index',
+  },
+
+  //题目
+  {
+    path: '/course/solutionDetail',
+    component: './course/solutionDetail',
+  },
+  {
+    name: '题目',
+    icon: 'book',
+    path: '/course/problems',
+    component: './course/ProblemPage/index',
+  },
+  {
+    path: '/course/problems/detail',
+    component: './course/ProblemPage/Detail/index',
+  },
+
+  // account routes
+  {
+    name: 'account',
+    icon: 'user',
+    path: '/account',
+    routes: [
+      // used for personal info
+      {
+        name: '个人信息',
+        path: '/account/center',
+        component: './account/center',
+      },
+      // used for change settings
+      {
+        name: '个人设置',
+        path: '/account/settings',
+        component: './account/settings',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+
+  // course route
+  {
+    path: '/course-student',
+    name: '课程',
+    icon: 'book',
+    access: 'canStudent',
+  },
+  {
+    path: '/course-teacher',
+    name: 'course',
+    icon: 'book',
+    access: 'canTeacher',
+  },
+  // management for teacher
+  {
+    path: '/management-teacher',
+    name: 'management',
+    icon: 'SmileOutlined',
+    access: 'canTeacher',
+    routes: [
+      {
+        name: 'course1',
+        path: '/management-teacher/course1',
+      },
+      {
+        name: 'course2',
+        path: '/management-teacher/course2',
+      },
+      {
         component: './404',
       },
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
+    path: '/management-admin',
+    name: 'management',
+    access: 'canAdmin',
+    icon: 'CrownOutlined',
   },
   {
     path: '/admin',
@@ -36,16 +122,30 @@
       },
     ],
   },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
+  // {
+  //   name: 'list.table-list',
+  //   icon: 'table',
+  //   path: '/list',
+  //   component: './TableList',
+  // },
+  // default redirect
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/lesson',
   },
+
+  // {
+  //   name: '题解',
+  //   path: '/course/solution',
+  //   component: './course/solution'
+  // },
+
+  {
+    name: 'Test',
+    path: '/test',
+    component: './Test',
+  },
+  // default redirect
   {
     component: './404',
   },

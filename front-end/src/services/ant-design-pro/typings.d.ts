@@ -1,101 +1,211 @@
-// @ts-ignore
-/* eslint-disable */
-
 declare namespace API {
+  type CourseInfo = {
+    /** ID */
+    courseId: number;
+    /** Course name */
+    courseName: string;
+    /** Course instructor */
+    // instructor?: number;
+  };
+
+  type CourseLabelList = {
+    /** ID */
+    id?: number;
+    labels?: LabelCourseLabelList[];
+  };
+
+  type TProblemList = {
+    /** ID */
+    id?: number;
+    problemList?: ProblemList[];
+  };
+
+  type getCourseDetailDeleteParams = {
+    /** A unique integer value identifying this course info. */
+    id: number;
+  };
+
+  type getCourseDetailReadParams = {
+    /** A unique integer value identifying this course info. */
+    id: number;
+  };
+
+  type getCourseLabelsReadParams = {
+    /** A unique integer value identifying this course info. */
+    id: number;
+  };
+
+  type getCourseProblemsReadParams = {
+    /** A unique integer value identifying this course info. */
+    id: number;
+  };
+
+  type getLabelProblemsReadParams = {
+    /** A unique integer value identifying this label info. */
+    labelId: number;
+  };
+
+  type getProblemSolutionsReadParams = {
+    /** A unique integer value identifying this problem info. */
+    problemId: number;
+  };
+
+  type getUserCoursesDeleteParams = {
+    /** A unique integer value identifying this user info. */
+    id: number;
+  };
+
+  type getUserCoursesReadParams = {
+    /** A unique integer value identifying this user info. */
+    id: number;
+  };
+
+  type LabelCourseLabelList = {
+    /** ID */
+    id?: number;
+    /** Label name */
+    labelName: string;
+  };
+
+  type LabelProblemListDetail = {
+    /** ID */
+    id?: number;
+    markProblem?: ProblemListRelationship[];
+  };
+
+  type LabelProblemListInfo = {
+    /** ID */
+    id?: number;
+    /** Label name */
+    labelName: string;
+  };
+
+  type ProblemList = {
+    /** ID */
+    id?: number;
+    mark?: LabelProblemListInfo[];
+    /** Problem name */
+    problemName: string;
+    /** CreatedAt */
+    createdAt?: number;
+    /** ChangedAt */
+    changedAt?: number;
+    /** Is solved or not */
+    isSolved?: boolean;
+  };
+
+  type ProblemListRelationship = {
+    /** ID */
+    id?: number;
+    /** Problem name */
+    problemName: string;
+    /** Is solved or not */
+    isSolved?: boolean;
+    /** ChangedAt */
+    changedAt?: number;
+    /** CreatedAt */
+    createdAt?: number;
+  };
+
+  type ProblemSolutionList = {
+    /** ID */
+    id?: number;
+    solution_list?: SolutionDetail[];
+  };
+
+  type SolutionDetail = {
+    /** ID */
+    id?: number;
+    /** Solution name */
+    solutionName: string;
+    /** Solution is checked or not */
+    isChecked?: boolean;
+    /** CreatedAt */
+    createdAt?: number;
+    /** ChangedAt */
+    changedAt?: number;
+  };
+
+  type UserCourseList = {
+    /** ID */
+    id?: number;
+    study?: CourseInfo[];
+  };
+
   type CurrentUser = {
-    name?: string;
-    avatar?: string;
-    userid?: string;
+    id?: number;
+    username?: string;
     email?: string;
-    signature?: string;
-    title?: string;
-    group?: string;
-    tags?: { key?: string; label?: string }[];
-    notifyCount?: number;
-    unreadCount?: number;
-    country?: string;
-    access?: string;
-    geographic?: {
-      province?: { label?: string; key?: string };
-      city?: { label?: string; key?: string };
-    };
-    address?: string;
-    phone?: string;
+    realName?: string;
+    mobile?: string;
+    authority?: number;
+    token?: string;
   };
 
-  type LoginResult = {
-    status?: string;
-    type?: string;
-    currentAuthority?: string;
+  type RegistInfo = {
+    /** Account */
+    username: string;
+    /** Password */
+    password: string;
+    confirm: string;
+    /** Email of user */
+    mail?: string;
+    /** Last login */
   };
 
-  type PageParams = {
-    current?: number;
-    pageSize?: number;
-  };
-
-  type RuleListItem = {
-    key?: number;
-    disabled?: boolean;
-    href?: string;
-    avatar?: string;
-    name?: string;
-    owner?: string;
-    desc?: string;
-    callNo?: number;
-    status?: number;
-    updatedAt?: string;
-    createdAt?: string;
-    progress?: number;
-  };
-
-  type RuleList = {
-    data?: RuleListItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type FakeCaptcha = {
-    code?: number;
-    status?: string;
-  };
-
+  /*登录参数*/
   type LoginParams = {
     username?: string;
     password?: string;
-    autoLogin?: boolean;
-    type?: string;
   };
 
-  type ErrorResponse = {
-    /** 业务约定的错误码 */
-    errorCode: string;
-    /** 业务上的错误信息 */
-    errorMessage?: string;
-    /** 业务上的请求是否成功 */
-    success?: boolean;
+  /*登录返回结果*/
+  type LoginResult = {
+    statecode?: number;
+    user?: CurrentUser;
+    token?: string;
   };
 
-  type NoticeIconList = {
-    data?: NoticeIconItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
+  type Likes = {
+    likes: number;
+    isLiked: boolean;
   };
 
-  type NoticeIconItemType = 'notification' | 'message' | 'event';
+  type Stared = {
+    stars: number;
+    isStared: boolean;
+  };
 
-  type NoticeIconItem = {
-    id?: string;
-    extra?: string;
-    key?: string;
-    read?: boolean;
-    avatar?: string;
-    title?: string;
-    status?: string;
-    datetime?: string;
-    description?: string;
-    type?: NoticeIconItemType;
+  type ProblemDescription = {
+    description: string;
+  };
+
+  type ProblemID = {
+    id: number;
+  };
+
+  type SolutionID = {
+    id: number;
+  };
+
+  type SolutionDescription = {
+    description: string;
+  };
+
+  type TLastLoginTime = {
+    lastLoginTime: number;
+  };
+
+  type TUserCreatedTime = {
+    createdTime: number;
+  };
+
+  type TProblemUpdatedAt = {
+    updatedTime: number;
+  };
+
+  type TLabel = {
+    id: number;
+    name: string;
   };
 }
