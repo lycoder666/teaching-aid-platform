@@ -25,7 +25,26 @@ SECRET_KEY = 'f!jh4vlyz)dsltwcm2&wf7bt-&r$zde436*zs320()#k8p44=='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['enchatbot.natapp1.cc']
+
+
+# jwt111
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',  # jwt认证组件
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+import datetime
+JWT_AUTH = {
+    # 过期时间1天
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    # 自定义认证结果：见下方序列化user和自定义response
+    # 如果不自定义，返回的格式是固定的，只有token字段
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.jwt_response_payload_handler',
+}
 
 
 # Application definition
@@ -37,6 +56,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'aid_platform.apps.AidPlatformConfig',  # app reference
+    'rest_framework',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -75,9 +98,13 @@ WSGI_APPLICATION = 'back_end.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'teaching_aid_platform',  # connected database
+       'HOST': '127.0.0.1',  # ip address of mysql
+       'PORT': 3306,  # port of mysql
+       'USER': 'root',  # user name of mysql
+       'PASSWORD': '123456',  # password of mysql
+  }
 }
 
 
